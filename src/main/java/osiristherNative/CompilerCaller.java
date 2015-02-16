@@ -11,10 +11,8 @@ public class CompilerCaller {
             String[] fileNameParts = fullFileName.split("\\.");
             String fileName = fileNameParts[0];
             String fileExtension = fileNameParts[1];
-            //String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
             if (fileExtension.equals("cpp") || fileExtension.equals("cc")){
-                callGCC(fileName, dirShortName);
-                return "well done - " + fileName; // ToDo; fix to correct
+                return callGCC(fileName, dirShortName);
             }
             else
                 return "E: unknown language;";
@@ -38,6 +36,6 @@ public class CompilerCaller {
         while ((s = stdError.readLine()) != null) {
             System.out.println("Script error_output: " + s);
         }
-        return "";
+        return fileShortName + ".o";
     }
 }
