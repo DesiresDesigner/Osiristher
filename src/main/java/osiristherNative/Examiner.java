@@ -25,8 +25,6 @@ public class Examiner implements  Runnable {
     Language lang;
     LinkedList<String> resultsList;
 
-    private String result;
-
     Examiner(int userID, int taskID, String source, Language lang, LinkedList<String> resultsList){
         cc = new CompilerCaller();
 
@@ -36,10 +34,6 @@ public class Examiner implements  Runnable {
         this.lang = lang;
         this.resultsList = resultsList;
         dirShortName = Integer.toString(userID);
-    }
-
-    private synchronized void putResult(){
-        resultsList.addFirst(result);
     }
 
     public String saveSource(){ // ToDo privet
@@ -65,12 +59,8 @@ public class Examiner implements  Runnable {
             BufferedWriter writer = new BufferedWriter(new FileWriter(dirPath + '/' + fullFileName, false));
             writer.write(source);
             writer.close();
-        } catch(SecurityException se) {
-            se.printStackTrace();
-            // ToDo: tell Native, that exam failed
         } catch (IOException e) {
-            e.printStackTrace();
-            // ToDo: tell Native, that exam failed
+            sendResultMessage(2, 1, "I/O problems while saving source");
         }
 
         return fullFileName;
@@ -86,17 +76,24 @@ public class Examiner implements  Runnable {
             execToTest = cc.compile(fullFileName, dirShortName);
             System.out.println(execToTest);
         } catch (IOException e) {
-            e.printStackTrace();
-            // ToDo: tell Native, that exam failed
+            sendResultMessage(1, 3, "I/O problems when calling gcc");
         } catch (UnknownLanguageException e) {
-            e.printStackTrace();
-            // ToDo: tell Native, that exam failed
+            sendResultMessage(1, 1, "Unknown extension of source file - " + e.getExtension());
         } catch (LackOfExpansionException e) {
-            e.printStackTrace();
-            // ToDo: tell Native, that exam failed
+            sendResultMessage(1, 2, "no extension of source file");
         } catch (GCCException e) {
-            e.printStackTrace();
-            // ToDo: tell Native, that exam failed
+            sendResultMessage(0, 1, "gcc compile error - " + e.toString());
         }
+
+        sendResultMessage(0, 0, "Testing module is being developed right now");
+    }
+
+    private void sendResultMessage(int moduleID, int errorID, String message){
+        String res = Integer.toString(moduleID) + '.' + Integer.toString(errorID) + ": " + message;
+        putResult(res);
+    }
+
+    private synchronized void putResult(String result){
+        resultsList.addFirst(result);
     }
 }

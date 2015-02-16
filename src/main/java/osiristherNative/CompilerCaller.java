@@ -18,8 +18,9 @@ public class CompilerCaller {
             if (fileExtension.equals("cpp") || fileExtension.equals("cc")){
                 return callGCC(fileName, dirShortName);
             }
-            else
-                throw new UnknownLanguageException();
+            else {
+                throw new UnknownLanguageException(fileExtension);
+            }
         } catch (ArrayIndexOutOfBoundsException e){
             throw new LackOfExpansionException();
         }
