@@ -4,6 +4,7 @@
 package osiristherNative;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 enum Language {CPP, JAVA};
 
@@ -12,7 +13,7 @@ public class SandyBox {
     public static void main(String args[ ]) throws IOException {
         /*CompilerCaller cc = new CompilerCaller();
         System.out.println(cc.compile("test.cc", "dir"));*/
-
+        LinkedList<String> resultsList = new LinkedList<String>();
 
         String source = "#include <iostream>\n" +
                 "#include <string>\n" +
@@ -27,7 +28,7 @@ public class SandyBox {
 
 
         System.out.println("Hello world");
-        Thread t = new Thread(new Examiner(1, 17, source, Language.CPP));
+        Thread t = new Thread(new Examiner(1, 17, source, Language.CPP, resultsList));
         t.start();
     }
 }

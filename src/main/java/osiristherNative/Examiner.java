@@ -1,9 +1,14 @@
 package osiristherNative;
 
+import osiristherNative.exceptions.GCCException;
+import osiristherNative.exceptions.LackOfExpansionException;
+import osiristherNative.exceptions.UnknownLanguageException;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
 
 /**
  * Created by desiresdesigner on 16.02.15.
@@ -18,16 +23,23 @@ public class Examiner implements  Runnable {
     private int taskID;
     private String source;
     Language lang;
-    // ToDo: queue with results
+    LinkedList<String> resultsList;
 
-    Examiner(int userID, int taskID, String source, Language lang){
+    private String result;
+
+    Examiner(int userID, int taskID, String source, Language lang, LinkedList<String> resultsList){
         cc = new CompilerCaller();
 
         this.userID = userID;
         this.taskID = taskID;
         this.source = source;
         this.lang = lang;
+        this.resultsList = resultsList;
         dirShortName = Integer.toString(userID);
+    }
+
+    private synchronized void putResult(){
+        resultsList.addFirst(result);
     }
 
     public String saveSource(){ // ToDo privet
@@ -74,6 +86,16 @@ public class Examiner implements  Runnable {
             execToTest = cc.compile(fullFileName, dirShortName);
             System.out.println(execToTest);
         } catch (IOException e) {
+            e.printStackTrace();
+            // ToDo: tell Native, that exam failed
+        } catch (UnknownLanguageException e) {
+            e.printStackTrace();
+            // ToDo: tell Native, that exam failed
+        } catch (LackOfExpansionException e) {
+            e.printStackTrace();
+            // ToDo: tell Native, that exam failed
+        } catch (GCCException e) {
+            e.printStackTrace();
             // ToDo: tell Native, that exam failed
         }
     }
