@@ -2,11 +2,8 @@
  Osiristher is the system of automatic testing of students laboratory works.
  Osiristher Native is the testing part of main System/
 
-
-
-
 Error Codes
-pattern: [moduleID][errorID]
+pattern: [moduleID][errorID][userID][taskID][message]
 0 - no module errors
     0 - no errors in source
     1 - compile error

@@ -44,7 +44,7 @@ public class Examiner implements  Runnable {
         needToBbeProcessed = true;
     }
 
-    private String saveSource(){
+    private String saveSource() throws IOException {
         fullFileName = Integer.toString(userID) + "_" + Integer.toString(taskID) + "_" + Long.toString(System.currentTimeMillis() / 1000L);
         String dirPath = "src/main/resources/SourceCode/" + Integer.toString(userID);
         switch (lang) {
@@ -60,37 +60,48 @@ public class Examiner implements  Runnable {
         }
 
         File dir = new File(dirPath);
-        try{
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-            BufferedWriter writer = new BufferedWriter(new FileWriter(dirPath + '/' + fullFileName, false));
-            writer.write(source);
-            writer.close();
-        } catch (IOException e) {
-            sendResultMessage(2, 1, "I/O problems while saving source");
+        if (!dir.exists()) {
+            dir.mkdir();
         }
+        BufferedWriter writer = new BufferedWriter(new FileWriter(dirPath + '/' + fullFileName, false));
+        writer.write(source);
+        writer.close();
 
         return fullFileName;
     }
 
     @Override
     public void run() {
-
+        try {
         saveSource();
+        } catch (IOException e) {
+            sendResultMessage(2, 1, "I/O problems while saving source");
+            if (needToBbeProcessed)
+                handler.process();
+        }
 
-        String execToTest;
+        String execToTest = "";
         try {
             execToTest = cc.compile(fullFileName, dirShortName);
             //System.out.println(execToTest);
-        } catch (IOException e) {
-            sendResultMessage(1, 3, "I/O problems when calling gcc");
-        } catch (UnknownLanguageException e) {
-            sendResultMessage(1, 1, "Unknown extension of source file - " + e.getExtension());
-        } catch (LackOfExpansionException e) {
-            sendResultMessage(1, 2, "no extension of source file");
-        } catch (GCCException e) {
-            sendResultMessage(0, 1, "gcc compile error - " + e.toString());
+        } catch (Exception e){
+            String name = e.getClass().getSimpleName();
+            if (name.equals("IOException")) {
+                sendResultMessage(1, 3, "I/O problems when calling gcc");
+
+            } else if (name.equals("UnknownLanguageException")) {
+                sendResultMessage(1, 1, "Unknown extension of source file - " + e.getMessage());
+
+            } else if (name.equals("LackOfExpansionException")) {
+                sendResultMessage(1, 2, "no extension of source file");
+
+            } else if (name.equals("GCCException")) {
+                sendResultMessage(0, 1, "gcc compile error - " + e.toString());
+            }
+
+            if (needToBbeProcessed)
+                handler.process();
+            return;
         }
 
         sendResultMessage(0, 0, "Testing module is being developed right now");
@@ -100,7 +111,8 @@ public class Examiner implements  Runnable {
     }
 
     private void sendResultMessage(int moduleID, int errorID, String message){
-        String res = Integer.toString(moduleID) + '.' + Integer.toString(errorID) + ": " + message;
+        String res = Integer.toString(moduleID) + '.' + Integer.toString(errorID) +
+                '.' + Integer.toString(userID) + '.' + Integer.toString(taskID) + ": " + message;
         putResult(res);
     }
 
