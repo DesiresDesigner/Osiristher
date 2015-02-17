@@ -36,7 +36,7 @@ public class Examiner implements  Runnable {
         dirShortName = Integer.toString(userID);
     }
 
-    public String saveSource(){ // ToDo privet
+    private String saveSource(){
         fullFileName = Integer.toString(userID) + "_" + Integer.toString(taskID) + "_" + Long.toString(System.currentTimeMillis() / 1000L);
         String dirPath = "src/main/resources/SourceCode/" + Integer.toString(userID);
         switch (lang) {
@@ -74,7 +74,7 @@ public class Examiner implements  Runnable {
         String execToTest;
         try {
             execToTest = cc.compile(fullFileName, dirShortName);
-            System.out.println(execToTest);
+            //System.out.println(execToTest);
         } catch (IOException e) {
             sendResultMessage(1, 3, "I/O problems when calling gcc");
         } catch (UnknownLanguageException e) {
