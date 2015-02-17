@@ -11,5 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="fitlibrary-2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.fitnesse:fitlibrary:20080812" level="project" />
+    <orderEntry type="library" name="Maven: org.fitnesse:fitnesse:20080812" level="project" />
   </component>
 </module>

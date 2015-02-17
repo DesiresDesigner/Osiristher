@@ -1,9 +1,5 @@
 package osiristherNative;
 
-import osiristherNative.exceptions.GCCException;
-import osiristherNative.exceptions.LackOfExpansionException;
-import osiristherNative.exceptions.UnknownLanguageException;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -77,7 +73,7 @@ public class Examiner implements  Runnable {
         } catch (IOException e) {
             sendResultMessage(2, 1, "I/O problems while saving source");
             if (needToBbeProcessed)
-                handler.process();
+                handler.handle();
         }
 
         String execToTest = "";
@@ -100,14 +96,14 @@ public class Examiner implements  Runnable {
             }
 
             if (needToBbeProcessed)
-                handler.process();
+                handler.handle();
             return;
         }
 
         sendResultMessage(0, 0, "Testing module is being developed right now");
 
         if (needToBbeProcessed)
-            handler.process();
+            handler.handle();
     }
 
     private void sendResultMessage(int moduleID, int errorID, String message){

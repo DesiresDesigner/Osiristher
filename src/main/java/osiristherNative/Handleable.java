@@ -5,5 +5,5 @@ package osiristherNative;
  */
 public interface Handleable {
 
-    public void process();
+    public void handle();
 }
