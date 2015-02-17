@@ -13,12 +13,24 @@ public class OsiristherNative {
     private LinkedList<String> resultsList;
     private ExecutorService executor = Executors.newFixedThreadPool(5);
 
+    boolean handlerIsPresent = false;
+    Handleable handler;
+
     OsiristherNative(LinkedList<String> resultsList){
         this.resultsList = resultsList;
     }
 
+    public void setHandler(Handleable handler){
+        this.handler = handler;
+        handlerIsPresent = true;
+    }
+
     public void testSource(int userID, int taskID, String source, Language lang){
-        Runnable examiner = new Examiner(userID, taskID, source, lang, resultsList);
+        Examiner examiner = new Examiner(userID, taskID, source, lang, resultsList);
+
+        if (handlerIsPresent)
+            examiner.setHandler(handler);
+
         executor.execute(examiner);
         //return ""; // ToDo correct
     }

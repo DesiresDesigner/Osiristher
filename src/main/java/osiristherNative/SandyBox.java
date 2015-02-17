@@ -14,6 +14,8 @@ public class SandyBox {
 
     public static void main(String args[ ]) throws IOException, InterruptedException {
         LinkedList<String> resultsList = new LinkedList<String>();
+        testHandler handler = new testHandler();
+        handler.setResultsList(resultsList);
 
         String source = "#include <iostream>\n" +
                 "#include <string>\n" +
@@ -28,6 +30,7 @@ public class SandyBox {
 
         System.out.println("Start performance");
         OsiristherNative on = new OsiristherNative(resultsList);
+        on.setHandler(handler);
         on.testSource(1, 17, source + "// 1", Language.CPP);
         on.testSource(2, 17, source + "// 2", Language.CPP);
         on.testSource(3, 17, source + "// 3", Language.CPP);
@@ -36,8 +39,7 @@ public class SandyBox {
         on.testSource(6, 17, source + "// 6", Language.CPP);
         on.testSource(7, 17, source + "// 7", Language.CPP);
         on.testSource(8, 17, source + "// 8", Language.CPP);
-
-        on.freeNow();
+        on.free();
         System.out.println("End performance");
         //System.out.println(resultsList.removeLast());
 

@@ -25,6 +25,9 @@ public class Examiner implements  Runnable {
     Language lang;
     LinkedList<String> resultsList;
 
+    boolean needToBbeProcessed = false;
+    Handleable handler;
+
     Examiner(int userID, int taskID, String source, Language lang, LinkedList<String> resultsList){
         cc = new CompilerCaller();
 
@@ -34,6 +37,11 @@ public class Examiner implements  Runnable {
         this.lang = lang;
         this.resultsList = resultsList;
         dirShortName = Integer.toString(userID);
+    }
+
+    public void setHandler(Handleable handler){
+        this.handler = handler;
+        needToBbeProcessed = true;
     }
 
     private String saveSource(){
@@ -86,6 +94,9 @@ public class Examiner implements  Runnable {
         }
 
         sendResultMessage(0, 0, "Testing module is being developed right now");
+
+        if (needToBbeProcessed)
+            handler.process();
     }
 
     private void sendResultMessage(int moduleID, int errorID, String message){
