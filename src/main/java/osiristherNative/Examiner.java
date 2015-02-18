@@ -32,7 +32,7 @@ public class Examiner implements  Runnable {
         this.source = source;
         this.lang = lang;
         this.resultsList = resultsList;
-        dirShortName = Integer.toString(userID);
+        dirShortName = Integer.toString(taskID);
     }
 
     public void setHandler(Handleable handler){

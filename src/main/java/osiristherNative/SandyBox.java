@@ -21,39 +21,8 @@ public class SandyBox {
 
     public static void main(String args[ ]) throws IOException, InterruptedException {
 
-        //ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "pwd");
-        ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " + "ex/main.o" + " example/1.input");
-        pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/osiristherNative/CompileScripts")); // ToDo: remember to change this dependency when deploy it on alert server
-        Process p = pb.start();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-        String s;
-
-        /*while ((s = reader.readLine()) != null) {
-            System.out.println("Script output: " + s);
-        }*/
-
-        String errors = "";
-        while ((s = stdError.readLine()) != null) {
-            System.out.println("Script error_output: " + s);
-            errors += s;
-        }
-
-        if (errors.equals("")){
-            Scanner programOutput = new Scanner(reader);
-            Scanner correctOutput = new Scanner(new File("src/main/java/osiristherNative/fixtures/example/1.output"));
-
-            while (correctOutput.hasNext()) {
-                if (!programOutput.hasNext() || (correctOutput.nextInt() != programOutput.nextInt())) {
-                    System.out.println("Fail"); // ToDo correct
-                    break;
-                }
-            }
-
-            System.out.println("The end!");
-        }
-
+        testerCaller tc = new testerCaller();
+        tc.testExec("ex/main.o", 1);
 
         /*LinkedList<String> resultsList = new LinkedList<String>();
         testHandler handler = new testHandler();

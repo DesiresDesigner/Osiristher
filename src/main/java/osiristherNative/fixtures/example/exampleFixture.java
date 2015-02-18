@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 //import fitlibrary.Fixture;
 
 public class exampleFixture extends DoFixture {
@@ -20,9 +21,14 @@ public class exampleFixture extends DoFixture {
         fileName = name;
     }
 
-    public boolean testFromFileAndCompareWith(String input, String output){
+    public boolean testFromFileAndCompareWith(String input, String output){ // ToDo: logging module instead System.out
         try {
-            ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " + "ex/main.o" + " example/" + input);
+            /*try {
+                TimeUnit.SECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                //Handle exception
+            }*/
+            ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " + fileName + " example/" + input);
             pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/osiristherNative/CompileScripts")); // ToDo: remember to change this dependency when deploy it on alert server
             Process p = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -38,22 +44,28 @@ public class exampleFixture extends DoFixture {
                 errors += s;
             }
 
-            if (errors.equals("")) {
+            if ("".equals(errors)) {
                 Scanner programOutput = new Scanner(reader);
                 Scanner correctOutput = new Scanner(new File("src/main/java/osiristherNative/fixtures/example/" + output));
 
                 while (correctOutput.hasNext()) {
                     if (!programOutput.hasNext() || (correctOutput.nextInt() != programOutput.nextInt())) {
+                        System.out.println("1, Student code is incorrect: (maybe here will be a part of failed test)");
                         return false;
                     }
                 }
             } else {
-                System.out.println(errors);
+                System.out.println("1, Student runtime error: " + errors);
                 return false;
             }
 
             return true;
         }  catch (IOException e) {
+            System.out.println("2, Fixture I/O Exception:");
+            e.printStackTrace();
+            return false;
+        } catch (Exception e){
+            System.out.println("2, Fixture Exception:");
             e.printStackTrace();
             return false;
         }
