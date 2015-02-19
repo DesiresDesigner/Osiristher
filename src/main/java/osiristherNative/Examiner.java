@@ -107,10 +107,13 @@ public class Examiner implements  Runnable {
         try {
             IntFLG exceptionsFLG = new IntFLG();
             float result = tc.testExec(dirShortName + '/' + execToTest, taskID, exceptionsFLG);
+            int errorCode = 0;
+            if (exceptionsFLG.getFlg() > 0)
+                errorCode = 4;
             if (result == 100.00)
-                sendResultMessage(0, 0, "100% passed");
+                sendResultMessage(errorCode, 0, "100% passed, E:" + exceptionsFLG.getFlg());
             else {
-                sendResultMessage(0, 2, result + "% passed");
+                sendResultMessage(errorCode, 2, result + "% passed, E:" + exceptionsFLG.getFlg());
             }
         } catch (IOException e) {
             sendResultMessage(3, 1, "I/O problems when calling Tester");
