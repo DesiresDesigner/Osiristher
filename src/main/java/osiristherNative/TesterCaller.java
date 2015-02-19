@@ -9,9 +9,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by desiresdesigner on 17.02.15.
+ * Created by DesiresDesigner on 17.02.15.
  */
-public class testerCaller {
+
+public class TesterCaller {
+    private int currentStatusCode;
 
     public String testExec(String execName, int taskID){
         try {

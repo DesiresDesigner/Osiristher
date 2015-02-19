@@ -1,4 +1,4 @@
-package osiristherNative;
+package osiristherNative.interfaces;
 
 /**
  * Created by desiresdesigner on 17.02.15.
