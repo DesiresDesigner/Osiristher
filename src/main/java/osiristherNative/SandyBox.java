@@ -3,6 +3,8 @@
  */
 package osiristherNative;
 
+import osiristherNative.entities.IntFLG;
+
 import java.io.IOException;
 
 public class SandyBox {
@@ -10,7 +12,10 @@ public class SandyBox {
     public static void main(String args[ ]) throws IOException, InterruptedException {
 
         TesterCaller tc = new TesterCaller();
-        tc.testExec("ex/main.o", 1);
+        IntFLG exceptionFlag = new IntFLG();
+        float res = tc.testExec("ex/main.o", 1, exceptionFlag);
+        System.out.println("Res: " + res);
+        System.out.println("Exceptions amount: " + exceptionFlag.getFlg());
 
         /*LinkedList<String> resultsList = new LinkedList<String>();
         testHandler handler = new testHandler();
