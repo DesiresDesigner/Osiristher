@@ -18,9 +18,7 @@ import java.util.regex.Pattern;
 public class TesterCaller {
     private float passedPercent = 0;
 
-    public float testExec(String execName, int taskID, IntFLG exceptionsFlag) throws IOException, InterruptedException {
-        System.out.println( "java -DEXEC='" + execName +
-                "' -jar  ~/soft/FitNesse/fitnesse-standalone.jar -d ~/Projects/Osiristher -c '" + taskID + "?test&format=text'");
+    public float testExec(String execName, int taskID, IntFLG exceptionsFlag) throws IOException {
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "java -DEXEC='" + execName +
                 "' -jar  ~/soft/FitNesse/fitnesse-standalone.jar -d ~/Projects/Osiristher -c '" + taskID + "?test&format=text'");
         Process p = pb.start();
@@ -39,7 +37,7 @@ public class TesterCaller {
                         passedPercent = (passedPercent + parseLine(s)) / 2;
                 }
             } catch (FixtureException e) {
-                exceptionsFlag.incFLG();
+                exceptionsFlag.incFLG(); // ToDo: logging of caught exceptions
                 //e.printStackTrace();
             }
             //System.out.println("Script output: " + s);

@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import osiristherNative.codes.*;
+import osiristherNative.entities.IntFLG;
 import osiristherNative.interfaces.Handleable;
 
 /**
@@ -13,21 +14,22 @@ import osiristherNative.interfaces.Handleable;
  */
 public class Examiner implements  Runnable {
     private CompilerCaller cc;
-    //ToDo: private TesterCaller tc;
+    private TesterCaller tc;
 
     private String fullFileName;
     private String dirShortName;
     private int userID;
     private int taskID;
     private String source;
-    Language lang;
-    LinkedList<String> resultsList;
+    private Language lang;
+    private LinkedList<String> resultsList;
 
-    boolean needToBbeProcessed = false;
-    Handleable handler;
+    private boolean needToBeProcessed = false;
+    private Handleable handler;
 
     Examiner(int userID, int taskID, String source, Language lang, LinkedList<String> resultsList){
         cc = new CompilerCaller();
+        tc = new TesterCaller();
 
         this.userID = userID;
         this.taskID = taskID;
@@ -39,12 +41,12 @@ public class Examiner implements  Runnable {
 
     public void setHandler(Handleable handler){
         this.handler = handler;
-        needToBbeProcessed = true;
+        needToBeProcessed = true;
     }
 
     private String saveSource() throws IOException {
         fullFileName = Integer.toString(userID) + "_" + Integer.toString(taskID) + "_" + Long.toString(System.currentTimeMillis() / 1000L);
-        String dirPath = "src/main/resources/SourceCode/" + Integer.toString(userID);
+        String dirPath = "src/main/resources/SourceCode/" + Integer.toString(taskID);
         switch (lang) {
             case CPP:
                 fullFileName += ".cc";
@@ -74,7 +76,7 @@ public class Examiner implements  Runnable {
         saveSource();
         } catch (IOException e) {
             sendResultMessage(2, 1, "I/O problems while saving source");
-            if (needToBbeProcessed)
+            if (needToBeProcessed)
                 handler.handle();
         }
 
@@ -97,14 +99,24 @@ public class Examiner implements  Runnable {
                 sendResultMessage(0, 1, "gcc compile error - " + e.toString());
             }
 
-            if (needToBbeProcessed)
+            if (needToBeProcessed)
                 handler.handle();
             return;
         }
 
-        sendResultMessage(0, 0, "Testing module is being developed right now");
+        try {
+            IntFLG exceptionsFLG = new IntFLG();
+            float result = tc.testExec(dirShortName + '/' + execToTest, taskID, exceptionsFLG);
+            if (result == 100.00)
+                sendResultMessage(0, 0, "100% passed");
+            else {
+                sendResultMessage(0, 2, result + "% passed");
+            }
+        } catch (IOException e) {
+            sendResultMessage(3, 1, "I/O problems when calling Tester");
+        }
 
-        if (needToBbeProcessed)
+        if (needToBeProcessed)
             handler.handle();
     }
 

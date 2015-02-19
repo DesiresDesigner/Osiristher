@@ -14,3 +14,6 @@ pattern: [moduleID][errorID][userID][taskID][message]
     3 - Input/Output problems
 2 - Examiner
     1 - I/O problems
+3 - TesterCaller
+    1 - I/O problems
+4 - Fixtures
