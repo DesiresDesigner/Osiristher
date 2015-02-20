@@ -99,8 +99,6 @@ public class Examiner implements  Runnable {
                 sendResultMessage(0, 1, "gcc compile error - " + e.toString());
             }
 
-            if (needToBeProcessed)
-                handler.handle();
             return;
         }
 
@@ -118,9 +116,6 @@ public class Examiner implements  Runnable {
         } catch (IOException e) {
             sendResultMessage(3, 1, "I/O problems when calling Tester");
         }
-
-        if (needToBeProcessed)
-            handler.handle();
     }
 
     private void sendResultMessage(int moduleID, int errorID, String message){
@@ -131,5 +126,8 @@ public class Examiner implements  Runnable {
 
     private synchronized void putResult(String result){
         resultsList.addFirst(result);
+
+        if (needToBeProcessed)
+            handler.handle();
     }
 }

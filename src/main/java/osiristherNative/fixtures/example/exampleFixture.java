@@ -21,14 +21,15 @@ public class exampleFixture extends DoFixture {
         fileName = name;
     }
 
-    public boolean testFromFileAndCompareWith(String input, String output){ // ToDo: logging module instead System.out
+    public boolean testFromSet(String setName){ // ToDo: logging module instead System.out
         try {
             /*try {
                 TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException e) {
                 //Handle exception
             }*/
-            ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " + fileName + " example/" + input);
+            System.out.println(System.getProperty("user.dir"));
+            ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " + fileName + " 1/testName/" + setName + "/input/content.txt");
             pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/osiristherNative/CompileScripts")); // ToDo: remember to change this dependency when deploy it on alert server
             Process p = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -46,7 +47,7 @@ public class exampleFixture extends DoFixture {
 
             if ("".equals(errors)) {
                 Scanner programOutput = new Scanner(reader);
-                Scanner correctOutput = new Scanner(new File("src/main/java/osiristherNative/fixtures/example/" + output));
+                Scanner correctOutput = new Scanner(new File("/home/desiresdesigner/Projects/Osiristher/FitNesseRoot/testingData/1/testName/" + setName + "/output/content.txt")); //ToDo: remove absolute path
 
                 while (correctOutput.hasNext()) {
                     if (!programOutput.hasNext() || (correctOutput.nextInt() != programOutput.nextInt())) {
