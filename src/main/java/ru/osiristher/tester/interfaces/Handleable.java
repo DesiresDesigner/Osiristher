@@ -1,4 +1,4 @@
-package osiristherNative.interfaces;
+package ru.osiristher.tester.interfaces;
 
 /**
  * Created by desiresdesigner on 17.02.15.

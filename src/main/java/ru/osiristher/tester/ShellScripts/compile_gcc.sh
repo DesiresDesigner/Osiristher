@@ -16,11 +16,11 @@ fi
 file_name=$1
 dir_name=$2
 
-if [ ! -d "../../../resources/ExecFiles/$dir_name" ]; then
-	mkdir ../../../resources/ExecFiles/$dir_name
+if [ ! -d "../../../../../resources/ExecFiles/$dir_name" ]; then
+	mkdir ../../../../../resources/ExecFiles/$dir_name
 fi
 
-g++ -o ../../../resources/ExecFiles/$dir_name/$file_name.o ../../../resources/SourceCode/$dir_name/$file_name.cc -std=c++0x
+g++ -o ../../../../../resources/ExecFiles/$dir_name/$file_name.o ../../../../../resources/SourceCode/$dir_name/$file_name.cc -std=c++0x
 #g++ -o $exec_name $file_name -std=c++0x
 
 if [[ $? -ne 0 ]] ; then

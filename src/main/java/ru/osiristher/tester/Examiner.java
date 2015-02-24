@@ -1,13 +1,15 @@
-package osiristherNative;
+package ru.osiristher.tester;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
-import osiristherNative.codes.*;
-import osiristherNative.entities.IntFLG;
-import osiristherNative.interfaces.Handleable;
+
+import ru.osiristher.properties.Config;
+import ru.osiristher.tester.entities.IntFLG;
+import ru.osiristher.tester.interfaces.Handleable;
+import ru.osiristher.tester.codes.Language;
 
 /**
  * Created by desiresdesigner on 16.02.15.
@@ -46,7 +48,8 @@ public class Examiner implements  Runnable {
 
     private String saveSource() throws IOException {
         fullFileName = Integer.toString(userID) + "_" + Integer.toString(taskID) + "_" + Long.toString(System.currentTimeMillis() / 1000L);
-        String dirPath = "src/main/resources/SourceCode/" + Integer.toString(taskID);
+        //String dirPath = "src/main/resources/SourceCode/" + Integer.toString(taskID);
+        String dirPath = Config.getProp("BasePath") + "/src/main/resources/SourceCode/" + Integer.toString(taskID);
         switch (lang) {
             case CPP:
                 fullFileName += ".cc";
@@ -83,7 +86,6 @@ public class Examiner implements  Runnable {
         String execToTest = "";
         try {
             execToTest = cc.compile(fullFileName, dirShortName);
-            //System.out.println(execToTest);
         } catch (Exception e){
             String name = e.getClass().getSimpleName();
             if (name.equals("IOException")) {

@@ -1,4 +1,4 @@
-package osiristherNative.exceptions;
+package ru.osiristher.tester.exceptions;
 
 /**
  * Created by desiresdesigner on 16.02.15.

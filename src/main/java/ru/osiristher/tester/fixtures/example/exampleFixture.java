@@ -1,4 +1,4 @@
-package osiristherNative.fixtures.example;
+package ru.osiristher.tester.fixtures.example;
 
 /**
  * Created by DesiresDesigner on 17.02.15.
@@ -30,7 +30,7 @@ public class exampleFixture extends DoFixture {
             }*/
             System.out.println(System.getProperty("user.dir"));
             ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " + fileName + " 1/testName/" + setName + "/input/content.txt");
-            pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/osiristherNative/CompileScripts")); // ToDo: remember to change this dependency when deploy it on alert server
+            pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/osiristherNative/ShellScripts")); // ToDo: remember to change this dependency when deploy it on alert server
             Process p = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));

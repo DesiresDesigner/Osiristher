@@ -1,11 +1,11 @@
 /**
  * Created by desiresdesigner on 13.02.15.
  */
-package osiristherNative;
+package ru.osiristher.tester;
 
-import osiristherNative.exceptions.GCCException;
-import osiristherNative.exceptions.LackOfExpansionException;
-import osiristherNative.exceptions.UnknownLanguageException;
+import ru.osiristher.tester.exceptions.GCCException;
+import ru.osiristher.tester.exceptions.LackOfExpansionException;
+import ru.osiristher.tester.exceptions.UnknownLanguageException;
 
 import java.io.*;
 
@@ -28,7 +28,7 @@ public class CompilerCaller {
 
     private String callGCC(String fileShortName, String dirShortName) throws IOException, GCCException {
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./compile_gcc.sh " + fileShortName + ' ' + dirShortName);
-        pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/osiristherNative/CompileScripts")); // ToDo: remember to change this dependency when deploy it on alert server
+        pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/ru/osiristher/tester/ShellScripts")); // ToDo: remember to change this dependency when deploy it on alert server
         Process p = pb.start();
         //BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
         BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));

@@ -1,10 +1,9 @@
-package osiristherNative;
+package ru.osiristher.tester;
 
-import osiristherNative.entities.IntFLG;
-import osiristherNative.exceptions.FixtureException;
+import ru.osiristher.tester.entities.IntFLG;
+import ru.osiristher.tester.exceptions.FixtureException;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
@@ -20,7 +19,7 @@ public class TesterCaller {
 
     public float testExec(String execName, int taskID, IntFLG exceptionsFlag) throws IOException {
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "java -DEXEC='" + execName +
-                "' -jar  ~/soft/FitNesse/fitnesse-standalone.jar -d ~/Projects/Osiristher -c '" + taskID + "?test&format=text'");
+                "' -jar  ~/soft/FitNesse/fitnesse-standalone.jar -d /home/desiresdesigner/Projects/Osiristher -c '" + taskID + "?test&format=text'");
         Process p = pb.start();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));

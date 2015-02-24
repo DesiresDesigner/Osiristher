@@ -1,10 +1,11 @@
-package osiristherNative;
+package ru.osiristher.tester;
 
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import osiristherNative.codes.*;
-import osiristherNative.interfaces.Handleable;
+
+import ru.osiristher.tester.codes.Language;
+import ru.osiristher.tester.interfaces.Handleable;
 
 /**
  * Created by DesiresDesigner on 16.02.15.

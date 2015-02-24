@@ -1,23 +1,17 @@
 /**
  * Created by DesiresDesigner on 13.02.15.
  */
-package osiristherNative;
+package ru.osiristher.tester;
 
-import osiristherNative.codes.Language;
-import osiristherNative.entities.IntFLG;
+import ru.osiristher.properties.Config;
+import ru.osiristher.tester.codes.Language;
 
 import java.io.IOException;
 import java.util.LinkedList;
 
 public class SandyBox {
 
-    public static void main(String args[ ]) throws IOException, InterruptedException {
-
-        /*TesterCaller tc = new TesterCaller();
-        IntFLG exceptionFlag = new IntFLG();
-        float res = tc.testExec("ex/main.o", 1, exceptionFlag);
-        System.out.println("Res: " + res);
-        System.out.println("Exceptions amount: " + exceptionFlag.getFlg());*/
+    public static void main(String args[ ]) throws Exception {
 
         LinkedList<String> resultsList = new LinkedList<String>();
         testHandler handler = new testHandler();

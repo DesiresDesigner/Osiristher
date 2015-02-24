@@ -1,4 +1,4 @@
-package osiristherNative.entities;
+package ru.osiristher.tester.entities;
 
 /**
  * Created by DesiresDesigner on 19.02.15.
