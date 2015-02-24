@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import ru.osiristher.properties.Config;
 import ru.osiristher.tester.entities.IntFLG;
+import ru.osiristher.tester.exceptions.ConfigException;
 import ru.osiristher.tester.interfaces.Handleable;
 import ru.osiristher.tester.codes.Language;
 
@@ -46,7 +47,7 @@ public class Examiner implements  Runnable {
         needToBeProcessed = true;
     }
 
-    private String saveSource() throws IOException {
+    private String saveSource() throws IOException, ConfigException {
         fullFileName = Integer.toString(userID) + "_" + Integer.toString(taskID) + "_" + Long.toString(System.currentTimeMillis() / 1000L);
         //String dirPath = "src/main/resources/SourceCode/" + Integer.toString(taskID);
         String dirPath = Config.getProp("BasePath") + "/src/main/resources/SourceCode/" + Integer.toString(taskID);
@@ -77,10 +78,14 @@ public class Examiner implements  Runnable {
     public void run() {
         try {
         saveSource();
-        } catch (IOException e) {
-            sendResultMessage(2, 1, "I/O problems while saving source");
-            if (needToBeProcessed)
-                handler.handle();
+        } catch (Exception e) {
+            String name = e.getClass().getSimpleName();
+            if (name.equals("IOException")) {
+                sendResultMessage(2, 1, "I/O problems while saving source");
+            } else if (name.equals("ConfigException")) {
+                sendResultMessage(5, 1, "I/O problems while opening config");
+            }
+            return;
         }
 
         String execToTest = "";
@@ -100,7 +105,6 @@ public class Examiner implements  Runnable {
             } else if (name.equals("GCCException")) {
                 sendResultMessage(0, 1, "gcc compile error - " + e.toString());
             }
-
             return;
         }
 
@@ -117,6 +121,8 @@ public class Examiner implements  Runnable {
             }
         } catch (IOException e) {
             sendResultMessage(3, 1, "I/O problems when calling Tester");
+        } catch (ConfigException e){
+            sendResultMessage(5, 1, "I/O problems while opening config");
         }
     }
 

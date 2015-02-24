@@ -5,6 +5,7 @@ package ru.osiristher.tester.fixtures.example;
  */
 
 import fitlibrary.DoFixture;
+import ru.osiristher.properties.Config;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +15,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 //import fitlibrary.Fixture;
 
-public class exampleFixture extends DoFixture {
+public class ExampleFixture extends DoFixture {
     String fileName;
 
     public void setFileName(String name){
@@ -28,9 +29,11 @@ public class exampleFixture extends DoFixture {
             } catch (InterruptedException e) {
                 //Handle exception
             }*/
-            System.out.println(System.getProperty("user.dir"));
-            ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " + fileName + " 1/testName/" + setName + "/input/content.txt");
-            pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/osiristherNative/ShellScripts")); // ToDo: remember to change this dependency when deploy it on alert server
+            ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " +
+                    Config.getProp("BasePath") + '/' + Config.getProp("ResourcesPath") + ' ' +
+                    Config.getProp("BasePath") + '/' + Config.getProp("TestingDataPath") + ' ' +
+                    fileName + " 1/testName/" + setName + "/input/content.txt");
+            pb.directory(new File(Config.getProp("BasePath") + '/' + Config.getProp("ScriptsPath")));
             Process p = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
@@ -47,7 +50,7 @@ public class exampleFixture extends DoFixture {
 
             if ("".equals(errors)) {
                 Scanner programOutput = new Scanner(reader);
-                Scanner correctOutput = new Scanner(new File("/home/desiresdesigner/Projects/Osiristher/FitNesseRoot/testingData/1/testName/" + setName + "/output/content.txt")); //ToDo: remove absolute path
+                Scanner correctOutput = new Scanner(new File(Config.getProp("BasePath") + '/' + Config.getProp("TestingDataPath") + "/1/testName/" + setName + "/output/content.txt"));
 
                 while (correctOutput.hasNext()) {
                     if (!programOutput.hasNext() || (correctOutput.nextInt() != programOutput.nextInt())) {

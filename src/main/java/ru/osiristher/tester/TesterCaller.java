@@ -1,9 +1,12 @@
 package ru.osiristher.tester;
 
+import ru.osiristher.properties.Config;
 import ru.osiristher.tester.entities.IntFLG;
+import ru.osiristher.tester.exceptions.ConfigException;
 import ru.osiristher.tester.exceptions.FixtureException;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
@@ -17,9 +20,14 @@ import java.util.regex.Pattern;
 public class TesterCaller {
     private float passedPercent = 0;
 
-    public float testExec(String execName, int taskID, IntFLG exceptionsFlag) throws IOException {
+    public float testExec(String execName, int taskID, IntFLG exceptionsFlag) throws IOException, ConfigException {
+        /*System.out.println("java -DEXEC='" + execName +
+                "' -jar " + Config.getProp("FitNessePath") + "/fitnesse-standalone.jar -d " + Config.getProp("BasePath") + " -c 'suites." + taskID + "?suite&format=text'");*/
+        //java -DEXEC='1/74_1_1424806840.o' -jar /home/desiresdesigner/soft/FitNesse/fitnesse-standalone.jar -c 'suites.1?suite&format=text'
+
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "java -DEXEC='" + execName +
-                "' -jar  ~/soft/FitNesse/fitnesse-standalone.jar -d /home/desiresdesigner/Projects/Osiristher -c '" + taskID + "?test&format=text'");
+                "' -jar " + Config.getProp("FitNessePath") + "/fitnesse-standalone.jar -d " + Config.getProp("BasePath") + " -c 'suites." + taskID + "?suite&format=text'");
+        pb.directory(new File(Config.getProp("BasePath")));
         Process p = pb.start();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));

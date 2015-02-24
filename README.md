@@ -17,3 +17,5 @@ pattern: [moduleID][errorID][userID][taskID][message]
 3 - TesterCaller
     1 - I/O problems
 4 - Fixtures
+5 - Config
+    1 - nu such file

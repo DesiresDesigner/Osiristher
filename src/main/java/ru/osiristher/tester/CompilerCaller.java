@@ -3,6 +3,8 @@
  */
 package ru.osiristher.tester;
 
+import ru.osiristher.properties.Config;
+import ru.osiristher.tester.exceptions.ConfigException;
 import ru.osiristher.tester.exceptions.GCCException;
 import ru.osiristher.tester.exceptions.LackOfExpansionException;
 import ru.osiristher.tester.exceptions.UnknownLanguageException;
@@ -10,7 +12,7 @@ import ru.osiristher.tester.exceptions.UnknownLanguageException;
 import java.io.*;
 
 public class CompilerCaller {
-    public String compile(String fullFileName, String dirShortName) throws IOException, UnknownLanguageException, LackOfExpansionException, GCCException {
+    public String compile(String fullFileName, String dirShortName) throws IOException, UnknownLanguageException, LackOfExpansionException, GCCException, ConfigException {
         try {
             String[] fileNameParts = fullFileName.split("\\.");
             String fileName = fileNameParts[0];
@@ -26,9 +28,15 @@ public class CompilerCaller {
         }
     }
 
-    private String callGCC(String fileShortName, String dirShortName) throws IOException, GCCException {
-        ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./compile_gcc.sh " + fileShortName + ' ' + dirShortName);
-        pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/ru/osiristher/tester/ShellScripts")); // ToDo: remember to change this dependency when deploy it on alert server
+    private String callGCC(String fileShortName, String dirShortName) throws IOException, GCCException, ConfigException {
+        System.out.println("./compile_gcc.sh " +
+                Config.getProp("BasePath") + '/' + Config.getProp("ResourcesPath") +
+                ' ' + fileShortName + ' ' + dirShortName);
+        ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./compile_gcc.sh " +
+                Config.getProp("BasePath") + '/' + Config.getProp("ResourcesPath") +
+                ' ' + fileShortName + ' ' + dirShortName);
+        //pb.directory(new File("/home/desiresdesigner/Projects/Osiristher/src/main/java/ru/osiristher/tester/ShellScripts")); // ToDo: remember to change this dependency when deploy it on alert server
+        pb.directory(new File(Config.getProp("BasePath") + '/' + Config.getProp("ScriptsPath")));
         Process p = pb.start();
         //BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
         BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
