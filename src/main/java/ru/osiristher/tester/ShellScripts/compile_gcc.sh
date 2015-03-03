@@ -4,7 +4,7 @@
 #  2 - gcc error
 
 usage(){
-	echo "Usage: run_cpp.sh resources_path file_name dir_name"
+	echo "Usage: run_cpp.sh resources_path file_name dir_name" # ToDo: 2 arguments instead three
 	exit 1
 }
 

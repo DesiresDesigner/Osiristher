@@ -11,6 +11,7 @@ Exit code
 0 - ok
 1 - unexpected end
 2 - wrong answer
+3 - rt-error
  */
 
 public class Result {
@@ -24,7 +25,7 @@ public class Result {
         execMem = 0;
         execTimeMS = 0;
         exitCode = 0;
-        errors = new LinkedList<String>();
+        errors = new LinkedList<>();
     }
 
     public int getExecTimeMS() {

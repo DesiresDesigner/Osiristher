@@ -5,21 +5,9 @@
 #  2 - error in prog
 
 usage(){
-	echo "Usage: run_cpp.sh resources_path testing_data_path file_name input_name"
+	echo "Usage: run_cpp.sh full_path_to_exec full_path_to_input"
 	exit 1
 }
-
-#if [[ $# -eq 0 ]] ; then
-#    echo 'no path to resources in arguments'
-#    usage
-#    exit 1
-#fi
-
-#if [[ $# -eq 1 ]] ; then
-#    echo 'no path to testing data in arguments'
-#    usage
-#    exit 1
-#fi
 
 if [[ $# -eq 0 ]] ; then
     echo 'no file_name in arguments'
@@ -33,8 +21,6 @@ if [[ $# -eq 1 ]] ; then
     exit 1
 fi
 
-#resources=$1
-#testing_data=$2
 pathToFile=$1
 pathToInput=$2
 

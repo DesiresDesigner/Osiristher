@@ -3,43 +3,17 @@
  */
 package ru.osiristher.tester;
 
-import ru.osiristher.tester.fixtures.runner.CppRunner;
+import ru.osiristher.tester.codes.Language;
+import java.util.LinkedList;
 
-import java.io.*;
-import java.lang.ProcessBuilder.Redirect.Type;
+// ToDo: enums with all error codes
 
 public class SandyBox {
 
     public static void main(String args[ ]) throws Exception {
 
-        CppRunner cp = new CppRunner();
-        cp.runWithFileInput("/home/desiresdesigner/Projects/Osiristher/src/main/resources/ExecFiles/ex/main.o", "/home/desiresdesigner/Projects/Osiristher/FitNesseRoot/testingData/1/testName/firstSet/input/content.txt");
-
-        /*ProcessBuilder pb = new ProcessBuilder("/home/desiresdesigner/Projects/Osiristher/src/main/resources/ExecFiles/ex/main.o");
-        //pb.directory(new File(Config.getProp("BasePath") + '/' + Config.getProp("ScriptsPath")));
-
-        //pb.redirectInput(new File("/home/desiresdesigner/Projects/Osiristher/FitNesseRoot/testingData/1/testName/firstSet/input/content.txt"));
-        File f = new File("/home/desiresdesigner/Projects/Osiristher/FitNesseRoot/testingData/1/testName/firstSet/input/content.txt");
-        Process p = pb.start();
-        //BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
-        OutputStreamWriter writer = new OutputStreamWriter(p.getOutputStream());
-        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-        //p.getOutputStream().
-        //writer.write("2 2\n0 5\n7 10\n1 6\n");
-        //writer.flush();
-        String s;
-        while ((s = reader.readLine()) != null) {
-                System.out.println("Script output: " + s);
-        }
-
-        while ((s = stdError.readLine()) != null) {
-            System.out.println("Script error_output: " + s);
-        }
-
-        /*LinkedList<String> resultsList = new LinkedList<String>();
-        testHandler handler = new testHandler();
+        LinkedList<String> resultsList = new LinkedList<>();
+        TestHandler handler = new TestHandler();
         handler.setResultsList(resultsList);
 
         String incorrectSource = "#include <iostream>\n" +
@@ -262,6 +236,6 @@ public class SandyBox {
         on.testSource(41, 1, incorrectSource, Language.CPP);
         on.testSource(74, 1, source, Language.CPP);
         on.free();
-        System.out.println("End performance");*/
+        System.out.println("End performance");
     }
 }

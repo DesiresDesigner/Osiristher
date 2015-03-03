@@ -10,15 +10,11 @@ import java.util.Scanner;
 /**
  * Created by DesiresDesigner on 26.02.15.
  */
+
 public class CppRunner {
 
     public Result runWithFileInput(String execName, String setName)
             throws IOException, InterruptedException, ConfigException {
-        System.out.println("./run_cpp.sh " + ' ' +
-                Config.getProp("BasePath") + '/' + Config.getProp("ResourcesPath") +
-                "/ExecFiles/" + execName + ' ' +
-                Config.getProp("BasePath") + '/' + Config.getProp("TestingDataPath")
-                + '/' + setName + "/input/content.txt");
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "./run_cpp.sh " + ' ' +
                 Config.getProp("BasePath") + '/' + Config.getProp("ResourcesPath") +
                     "/ExecFiles/" + execName + ' ' +
@@ -41,11 +37,12 @@ public class CppRunner {
             Scanner correctOutput = new Scanner(new File(Config.getProp("BasePath") + '/' +
                     Config.getProp("TestingDataPath") + '/' + setName + "/output/content.txt"));
             return checkMatches(programOutput, correctOutput);
-        } else {
-
         }
 
-        return null; //ToDo
+        Result result = new Result();
+        result.addError(0, "Errors(" + errors + ')', "result");
+        result.setExitCode(3);
+        return result;
     }
 
     private Result checkMatches(Scanner output, Scanner expected) {

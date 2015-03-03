@@ -21,10 +21,6 @@ public class TesterCaller {
     private float passedPercent = 0;
 
     public float testExec(String execName, int taskID, IntFLG exceptionsFlag) throws IOException, ConfigException {
-        /*System.out.println("java -DEXEC='" + execName +
-                "' -jar " + Config.getProp("FitNessePath") + "/fitnesse-standalone.jar -d " + Config.getProp("BasePath") + " -c 'suites." + taskID + "?suite&format=text'");*/
-        //java -DEXEC='1/74_1_1424806840.o' -jar /home/desiresdesigner/soft/FitNesse/fitnesse-standalone.jar -c 'suites.1?suite&format=text'
-
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "java -DEXEC='" + execName +
                 "' -jar " + Config.getProp("FitNessePath") + "/fitnesse-standalone.jar -d " + Config.getProp("BasePath") + " -c 'suites." + taskID + "?suite&format=text'");
         pb.directory(new File(Config.getProp("BasePath")));
@@ -45,9 +41,7 @@ public class TesterCaller {
                 }
             } catch (FixtureException e) {
                 exceptionsFlag.incFLG(); // ToDo: logging of caught exceptions
-                //e.printStackTrace();
             }
-            //System.out.println("Script output: " + s);
         }
 
         /*String errors = "";

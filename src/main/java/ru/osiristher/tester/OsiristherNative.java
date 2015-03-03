@@ -35,7 +35,6 @@ public class OsiristherNative {
             examiner.setHandler(handler);
 
         executor.execute(examiner);
-        //return ""; // ToDo correct
     }
 
     public void free(){
@@ -47,7 +46,4 @@ public class OsiristherNative {
         executor.shutdownNow();
         //while (!executor.isTerminated()){}
     }
-    /*public String convertResult(){ // ToDo privet
-        return ""; // ToDo correct
-    }*/
 }
